@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup as soup
 page = "https://www.myip.com/"
 
 def find_IP():
-	countries = {'United_States':'US', 'United_States':'USA','United_Kingdom':'UK', 'France':'FR'}
+	countries = {'Canada':'CA','United_States':'USA', 'Mexico':'MX','France':'FR','Brazil':'BR','United_Kingdom':'UK', 'France':'FR'}
 	my_ip_request = requests.get(page)
 	get_page = soup(my_ip_request.content,'html.parser')
 	my_ip_find = get_page.find_all('span',attrs={'id':'ip'})
