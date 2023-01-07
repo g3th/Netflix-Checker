@@ -1,6 +1,7 @@
 from header import title
 
 def determine_split_method():
+
 	title()
 	split_method_type = "No_Method"
 	try:
