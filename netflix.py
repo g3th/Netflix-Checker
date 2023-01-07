@@ -76,8 +76,7 @@ while counter < len(user):
 		password.send_keys(passw[counter].strip())
 		time.sleep(0.2)
 		button.click()
-		time.sleep(2)
-		
+		time.sleep(2)		
 		if browser.find_elements(By.XPATH, '//*[@id="appMountPoint"]/div/div[3]/div/div/div[1]/div/div[2]'):
 			login_error = browser.find_element(By.XPATH, '//*[@id="appMountPoint"]/div/div[3]/div/div/div[1]/div/div[2]').text
 			if "Sorry, we can't find an account with this email address." in login_error:
