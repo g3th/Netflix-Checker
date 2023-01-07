@@ -12,7 +12,7 @@ from selenium.webdriver.common.by import By
 current_split_method = determine_split_method()
 
 def print_ip_and_country():
-	if current_split_method != "None":
+	if current_split_method != "None" and current_split_method != ";":
 		print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching {} accounts\n".format(details[0], details[1], details[2]))
 	else:
 		print("\n\033[38;5;7mCurrent IP: {} : {} | No Countries in Combo\n".format(details[0], details[1]))
@@ -39,13 +39,16 @@ for file_ in range(len(files)):
 				user.append(line.split(":")[0])
 				passw.append(line.split(":")[1])
 		break
-		
+
 	if file_ == len(files)-1:
 		with open('netflix','r') as net:
 			for line in net.readlines():
-				if details[2] in line:
+				if details[2] in line and current_split_method != ";":
 					user.append(line.split(":")[0])
 					passw.append(line.split(":")[1].split(current_split_method)[0].strip())
+				elif current_split_method == ";":
+					user.append(line.split(";")[1].split(";")[0])
+					passw.append(line.split(";")[2].strip())
 				elif current_split_method == "None":
 					user.append(line.split(":")[0])
 					passw.append(line.split(":")[1])

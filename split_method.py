@@ -14,9 +14,11 @@ def determine_split_method():
 			for line in determine_combo.readlines():
 				if " | " in line:
 					split_method_type = " | "
-				if " || " in line:
+				elif " || " in line:
 					split_method_type = " || "
-				if len(line) < 90:
+				elif "https://www.netflix.com" in line:
+					split_method_type = ";"
+				elif len(line) < 90:
 					if len(spaces) < 1:
 						split_method_type = "None"
 					else:
