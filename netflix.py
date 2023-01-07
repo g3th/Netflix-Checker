@@ -84,9 +84,7 @@ while counter < len(user):
 	browser_options.headless = True
 	browser = webdriver.Chrome(options = browser_options)
 	browser.set_window_size(300,400)
-	browser.get(page)
-
-		
+	browser.get(page)		
 	time.sleep(0.4)
 	login = browser.find_element(By.XPATH, '//*[@id="id_userLoginId"]')
 	password = browser.find_element(By.XPATH, '//*[@id="id_password"]')
