@@ -9,7 +9,6 @@ directory = str(Path(__file__).parent)
 
 for file_ in os.listdir(directory):
 	files.append(file_)
-
 for file_ in range(len(files)):
 	if 'resume' in files[file_]:
 		print("resume exists")
