@@ -1,6 +1,6 @@
 # Netflix Account Checker
 ## Easy Webdriver Account Checker
-### Have a Netflix combo-list? Name it 'netflix' and check it out.
+### Have a Netflix Combo-List? Name it 'netflix' and check it out.
 
 ![Alt text](assets/pic.png "Netflix Checker running on Kali")
 
