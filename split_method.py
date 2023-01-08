@@ -12,8 +12,10 @@ def determine_split_method():
 					spaces.append(line)
 					
 			for line in determine_combo.readlines():
-				if " | " in line:
+				if " | " in line and "https://" not in line and "android" not in line:
 					split_method_type = " | "
+				elif " | https://" in line or " | android" in line:
+					split_method_type = " |"
 				elif " || " in line:
 					split_method_type = " || "
 				elif "https://www.netflix.com" in line:
