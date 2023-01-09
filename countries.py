@@ -2,9 +2,9 @@ import requests
 from bs4 import BeautifulSoup as soup
 
 page = "https://www.myip.com/"
-
+countries = {'Canada':'CA','United_States':'US', 'Mexico':'MX','France':'FR','Brazil':'BR','United_Kingdom':'UK', 'France':'FR', 'India':'IN', 'Germany':'DE', 'Australia':'AU', 'Italy':'IT','Romania':'RO','Spain':'ES','Turkey':'TR','Czech_Republic':'CZ','Denmark':'DK','Norway':'NO','Hungary':'HU'}
+	
 def find_IP():
-	countries = {'Canada':'CA','United_States':'US', 'Mexico':'MX','France':'FR','Brazil':'BR','United_Kingdom':'UK', 'France':'FR', 'India':'IN', 'Germany':'DE', 'Australia':'AU', 'Italy':'IT'}
 	my_ip_request = requests.get(page)
 	get_page = soup(my_ip_request.content,'html.parser')
 	my_ip_find = get_page.find_all('span',attrs={'id':'ip'})
