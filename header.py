@@ -9,18 +9,10 @@ def title():
 	print("\033[38;5;124m    =========== https://github.com/g3th =========    ")
 
 def user_options():
-	print("\n\033[38;5;7m--------- Pick an Option: ---------\n")
+	print("\n\033[38;5;7m--------- Options: ---------\n")
 	print("1) Check Accounts")
-	print("2) Check Countries in Combo-List\n")
-	option = str(input("Option or (q)uit: "))
-	while True:
-		if option == "1" or option == "2":
-			title()
-			return option
-		elif option == "q":
-			exit()
-		else:
-			title()
-			user_options()
+	print("2) Check Countries and Stats in Combo-List\n")
+
+	
 			
 		
