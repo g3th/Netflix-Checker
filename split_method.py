@@ -12,11 +12,12 @@ def determine_split_method():
 					spaces.append(line)
 					
 			for line in determine_combo.readlines():
+				line = line[:76]
 				if " | " in line and "https://" not in line and "android" not in line:
 					split_method_type = " | "
 				elif " | https://" in line or " | android" in line:
 					split_method_type = " |"
-				elif " || " in line:
+				elif " || " in line and " || https" not in line:
 					split_method_type = " || "
 				elif "https://www.netflix.com" in line:
 					split_method_type = ";"
@@ -30,3 +31,4 @@ def determine_split_method():
 		print("\033[38;5;7m\nNo combo-list found. Add one, and name it 'netflix' before starting the program.\nEnding.\n")
 		exit()
 	return split_method_type
+determine_split_method()
