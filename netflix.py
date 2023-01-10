@@ -35,7 +35,6 @@ for file_ in os.listdir(directory):
 for file_ in range(len(files)):
 	if 'resume' in files[file_]:
 		resume_flag = True
-		print("\033[38;5;7m\nResume file found. Resuming from given combo.")
 		with open('resume','r') as resume:
 			for line in resume.readlines():
 				user.append(line.split(":")[0])
@@ -69,8 +68,11 @@ while True:
 	options = input("Pick an option or (q)uit: ")
 	while True:
 		if options == "1":
-			#Account Checker	
+			#Account Checker
 			title()
+			if resume_flag == True:
+				print("\033[38;5;7m\nResume file found. Resuming from given combo.")	
+
 			print_ip_and_country()
 			while counter < len(user):
 					if len(user) == 0:
