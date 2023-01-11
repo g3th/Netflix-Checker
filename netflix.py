@@ -26,7 +26,10 @@ directory = str(Path(__file__).parent)
 
 def print_ip_and_country():
 	if current_split_method != "None" and current_split_method != ";" and current_split_method != " |":
-		print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching {} accounts\n".format(details[0], details[1], details[2]))
+		if isinstance(details[2],list):
+			print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching {}/{} accounts\n".format(details[0], details[1], *details[2]))
+		else:
+			print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching {} accounts\n".format(details[0], details[1], details[2]))
 		split_method_has_a_country = True
 		return split_method_has_a_country
 	else:
@@ -44,7 +47,11 @@ for file_ in range(len(files)):
 	if file_ == len(files)-1:
 		with open('netflix','r') as net:
 			for line in net.readlines():
-				if details[2] in line and current_split_method != ";":
+				if isinstance(details[2], list):
+					if [country for country in details[2] if(country in line)]:
+						user.append(line.split(":")[0])
+						passw.append(line.split(":")[1].split(current_split_method)[0].strip())				
+				elif details[2] in line and current_split_method != ";":
 					user.append(line.split(":")[0])
 					passw.append(line.split(":")[1].split(current_split_method)[0].strip())
 				elif current_split_method == " |":
