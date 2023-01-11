@@ -30,5 +30,8 @@ def determine_split_method():
 	except FileNotFoundError:
 		print("\033[38;5;7m\nNo combo-list found. Add one, and name it 'netflix' before starting the program.\nEnding.\n")
 		exit()
+		
 	return split_method_type
-determine_split_method()
+def return_error():
+	print("\033[38;5;7m\nThere is something wrong with the combo-list\n\nPlease check:\n\n1) There are no invalid characters\n2) There are no extra lines at the bottom of the file (i.e. ASCII graphics etc)\n3) There is no extra information (i.e. made by) at the top or bottom of the file\n4) There are no extra spaces at the top or bottom of the file\n")
+	input("Press Enter to return")

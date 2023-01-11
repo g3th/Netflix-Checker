@@ -2,6 +2,7 @@ import time
 import requests
 import os
 from split_method import determine_split_method
+from split_method import return_error
 from pathlib import Path
 from header import title
 from header import user_options
@@ -183,16 +184,19 @@ while True:
 				break
 		if options == "3":
 			title()
-			if return_split_method != "None":
-				with open('netflix','r') as net:
-					for line in net.readlines():
-						user.append(line.split("@")[0]+line.split(":")[0])
-						passw.append(line.split(":")[1].split(" ")[0])
-				current_split_method = "None"
-				print("\n\033[38;5;7mCountries in combos were deleted.\nYou can now check accounts without any specific VPN.")
-			else:
-				print("\n\033[38;5;7mThere are no countries included in given combo-list")
-			input("\nPress Enter to Return.")			
+			try:
+				if return_split_method != "None":
+					with open('netflix','r') as net:
+						for line in net.readlines():
+							user.append(line.split(":")[0])
+							passw.append(line.split(":")[1].split(" ")[0])
+					current_split_method = "None"
+					print("\n\033[38;5;7mCountries in combos were deleted.\nYou can now check accounts without any specific VPN.")
+				else:
+					print("\n\033[38;5;7mThere are no countries included in given combo-list")
+				input("\nPress Enter to Return.")
+			except IndexError:
+				return_error()	
 		if options == "q":
 			#Exit
 			exit()
