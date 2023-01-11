@@ -11,7 +11,8 @@ def title():
 def user_options():
 	print("\n\033[38;5;7m--------- Options: ---------\n")
 	print("1) Check Accounts")
-	print("2) Check Countries and Stats in Combo-List\n")
+	print("2) Check Countries and Stats in Combo-List")
+	print("3) Eliminate Countries from List (check accounts with any VPN)\n")
 
 	
 			
