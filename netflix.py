@@ -26,7 +26,7 @@ directory = str(Path(__file__).parent)
 
 def print_ip_and_country():
 	if current_split_method != "None" and current_split_method != ";" and current_split_method != " |":
-		if isinstance(details[2],list):
+		if isinstance(details[2], list):
 			print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching {}/{} accounts\n".format(details[0], details[1], *details[2]))
 		else:
 			print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching {} accounts\n".format(details[0], details[1], details[2]))
