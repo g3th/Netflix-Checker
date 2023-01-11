@@ -13,5 +13,7 @@ def find_IP():
 	my_country = str(my_country_find).split(">")[1].split("<")[0].replace(" ","_")
 	if countries[my_country] == 'UK':
 		country_list = ['UK', 'GB']
+	elif countries[my_country] == 'US':
+		country_list = ['USA', 'US']
 		return my_ip, my_country, country_list
 	return my_ip, my_country, countries[my_country]
