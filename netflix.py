@@ -163,6 +163,12 @@ while True:
 				while counter < len(full_countries_list_from_dict):
 					while lines_counter < len(combo_lines):
 						# here comes cancer
+						if full_countries_list_from_dict[counter] == 'UK':
+								special_countries ['UK','GB']
+								if [country for country in special_countries if(country in combo_lines[lines_counter])]:
+									combolist_countries.update({full_countries_list_from_dict[counter]:recurrence})
+									recurrence += 1
+								lines_counter += 1
 						if [key_word+countries[full_countries_list_from_dict[counter]] for key_word in key_words if(key_word+countries[full_countries_list_from_dict[counter]] in combo_lines[lines_counter])]:
 							combolist_countries.update({full_countries_list_from_dict[counter]:recurrence})
 							recurrence += 1
