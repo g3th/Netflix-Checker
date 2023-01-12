@@ -58,17 +58,13 @@ for file_ in range(len(files)):
 					if [country for country in details[2] if(country in line)]:
 						user.append(line.split(":")[0])
 						passw.append(line.split(":")[1].split(current_split_method)[0].strip())		
-<<<<<<< HEAD
 	
 				if isinstance(details[2], list) == False:
 					if details[2]in line and current_split_method != ";":
 						user.append(line.split(":")[0])
 						passw.append(line.split(":")[1].split(current_split_method)[0].strip())
-					
-				if current_split_method == " |":
-=======
+
 				elif details[2] in line and current_split_method != ";":
->>>>>>> refs/remotes/origin/main
 					user.append(line.split(":")[0])
 					passw.append(line.split(":")[1].split(current_split_method)[0].strip())
 					
@@ -155,6 +151,7 @@ while True:
 						browser.close()
 						sys.stdout.write("\033[38;5;7m\x1b7\x1b[0;14fHits: %s Valid Accounts (Tried %s)\x1b8"%(hits, str(counter)))
 						sys.stdout.flush()					
+						
 					except:
 					
 						request = requests.get(page)		
