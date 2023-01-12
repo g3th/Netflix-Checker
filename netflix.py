@@ -58,6 +58,7 @@ for file_ in range(len(files)):
 					if [country for country in details[2] if(country in line)]:
 						user.append(line.split(":")[0])
 						passw.append(line.split(":")[1].split(current_split_method)[0].strip())		
+<<<<<<< HEAD
 	
 				if isinstance(details[2], list) == False:
 					if details[2]in line and current_split_method != ";":
@@ -65,6 +66,9 @@ for file_ in range(len(files)):
 						passw.append(line.split(":")[1].split(current_split_method)[0].strip())
 					
 				if current_split_method == " |":
+=======
+				elif details[2] in line and current_split_method != ";":
+>>>>>>> refs/remotes/origin/main
 					user.append(line.split(":")[0])
 					passw.append(line.split(":")[1].split(current_split_method)[0].strip())
 					
