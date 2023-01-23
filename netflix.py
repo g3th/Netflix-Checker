@@ -50,10 +50,9 @@ for file_ in range(len(files)):
 				passw.append(line.split(":")[1])
 		break
 	if file_ == len(files)-1:
-		with open('netflix','r') as net:	
-			
+		with open('netflix','r') as net:
 			for line in net.readlines():
-
+				
 				if isinstance(details[2], list) and current_split_method != "None":
 					if [country for country in details[2] if(country in line)]:
 						user.append(line.split(":")[0])
@@ -64,9 +63,9 @@ for file_ in range(len(files)):
 						user.append(line.split(":")[0])
 						passw.append(line.split(":")[1].split(current_split_method)[0].strip())
 
-				elif details[2] in line and current_split_method != ";":
-					user.append(line.split(":")[0])
-					passw.append(line.split(":")[1].split(current_split_method)[0].strip())
+					elif details[2] in line and current_split_method != ";":
+						user.append(line.split(":")[0])
+						passw.append(line.split(":")[1].split(current_split_method)[0].strip())
 					
 				if current_split_method == ";":
 					user.append(line.split(";")[1].split(";")[0])
