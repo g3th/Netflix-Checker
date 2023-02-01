@@ -52,7 +52,6 @@ for file_ in range(len(files)):
 	if file_ == len(files)-1:
 		with open('netflix','r') as net:
 			for line in net.readlines():
-				
 				if isinstance(details[2], list) and current_split_method != "None":
 					if [country for country in details[2] if(country in line)]:
 						user.append(line.split(":")[0])
@@ -70,6 +69,10 @@ for file_ in range(len(files)):
 				if current_split_method == ";":
 					user.append(line.split(";")[1].split(";")[0])
 					passw.append(line.split(";")[2].strip())
+				
+				if current_split_method  == "[NETFLIX]":
+					user.append(line.split(" - ")[1].split(":")[0].strip())
+					passw.append(line.split(" - ")[1].split(":")[1].strip())
 					
 				elif current_split_method == "None":
 					user.append(line.split(":")[0])
@@ -86,7 +89,6 @@ while True:
 	return_split_method = print_ip_and_country()
 	user_options()
 	options = input("Pick an option or (q)uit: ")
-	
 	while True:
 	
 		if options == "1":
