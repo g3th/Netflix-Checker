@@ -26,9 +26,9 @@ clear_page = 0
 directory = str(Path(__file__).parent)
 
 def print_ip_and_country():
-
+	blacklisted_split_methods = ['None',';',' |','[NETFLIX]']
 	split_method_has_a_country = False
-	if current_split_method != "None" and current_split_method != ";" and current_split_method != " |":
+	if [item for item in blacklisted_split_methods if (current_split_method != item)]:
 		if isinstance(details[2], list):
 			print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching {}/{} accounts\n".format(details[0], details[1], *details[2]))
 		else:
@@ -74,12 +74,12 @@ for file_ in range(len(files)):
 					user.append(line.split(" - ")[1].split(":")[0].strip())
 					passw.append(line.split(" - ")[1].split(":")[1].strip())
 					
-				elif current_split_method == "None":
+				if current_split_method == "None":
 					user.append(line.split(":")[0])
 					passw.append(line.split(":")[1])
 					
 			for line in range(len(user)):	
-				updated_list.append("{}:{}\n".format(user[line], passw[line].strip()))
+				updated_list.append("{}:{}\n".format(user[line], passw[line]))
 		net.close()
 
 page = "https://www.netflix.com/login"
@@ -98,7 +98,7 @@ while True:
 				print("\033[38;5;7m\nResume file found. Resuming from given combo.")	
 			print_ip_and_country()
 			while counter < len(user):
-					
+					print(str(counter) + " ---- " + str(len(user)))
 					if len(user) == 0:
 						print("\n\033[38;5;226mNo Accounts for current country.\n")
 						break
@@ -221,16 +221,18 @@ while True:
 				break
 				
 		if options == "3":
-		
+			blacklist = ['None','[NETFLIX]']
 			title()
 			try:
-				if return_split_method != "None":
+				if [item for item in blacklist if (current_split_method == line)]:
 					with open('netflix','r') as net:
 						for line in net.readlines():
 							user.append(line.split(":")[0])
 							passw.append(line.split(":")[1].split(" ")[0])
 					current_split_method = "None"
 					print("\n\033[38;5;7mCountries in combos were deleted.\nYou can now check accounts without any specific VPN.")
+					print(user)
+					exit()
 				else:
 					print("\n\033[38;5;7mThere are no countries included in given combo-list")
 				input("\nPress Enter to Return.")
