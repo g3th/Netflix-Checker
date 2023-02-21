@@ -90,7 +90,7 @@ while True:
 	user_options()
 	options = input("Pick an option or (q)uit: ")
 	while True:
-	
+		#print(current_split_method)
 		if options == "1":
 			#Account Checker
 			title()
@@ -98,7 +98,6 @@ while True:
 				print("\033[38;5;7m\nResume file found. Resuming from given combo.")	
 			print_ip_and_country()
 			while counter < len(user):
-					print(str(counter) + " ---- " + str(len(user)))
 					if len(user) == 0:
 						print("\n\033[38;5;226mNo Accounts for current country.\n")
 						break
@@ -150,7 +149,7 @@ while True:
 						counter += 1
 						clear_page += 1
 						browser.close()
-						sys.stdout.write("\033[38;5;7m\x1b7\x1b[0;14fHits: %s Valid Accounts (Tried %s)\x1b8"%(hits, str(counter)))
+						sys.stdout.write("\033[38;5;7m\x1b7\x1b[0;14fHits: %s Valid Accounts (Tried %s out of %s)\x1b8"%(hits, str(counter), str(len(user))))
 						sys.stdout.flush()					
 						
 					except:
@@ -221,18 +220,18 @@ while True:
 				break
 				
 		if options == "3":
-			blacklist = ['None','[NETFLIX]']
+			whitelist = ['None','[NETFLIX]', 'Short_line', ]
 			title()
 			try:
-				if [item for item in blacklist if (current_split_method == line)]:
+				if [item for item in whitelist if (current_split_method == item)]:
+					user = []
+					passw = []
 					with open('netflix','r') as net:
 						for line in net.readlines():
 							user.append(line.split(":")[0])
 							passw.append(line.split(":")[1].split(" ")[0])
 					current_split_method = "None"
 					print("\n\033[38;5;7mCountries in combos were deleted.\nYou can now check accounts without any specific VPN.")
-					print(user)
-					exit()
 				else:
 					print("\n\033[38;5;7mThere are no countries included in given combo-list")
 				input("\nPress Enter to Return.")
