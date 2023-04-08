@@ -15,6 +15,7 @@ from selenium.webdriver.common.by import By
 
 details = [find_IP()[0], find_IP()[1], find_IP()[2]]
 current_split_method = determine_split_method()
+list_without_countries = False
 counter = 0
 hits = 0
 user =[]
@@ -32,7 +33,10 @@ def print_ip_and_country():
 		if isinstance(details[2], list):
 			print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching {}/{} accounts\n".format(details[0], details[1], *details[2]))
 		else:
-			print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching {} accounts\n".format(details[0], details[1], details[2]))
+			if list_without_countries == True:
+				print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching All Accounts\n".format(details[0], details[1]))
+			else:
+				print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching {} accounts\n".format(details[0], details[1], details[2]))
 		split_method_has_a_country = True
 	else:
 		print("\n\033[38;5;7mCurrent IP: {} : {} | No Countries in Combo\n".format(details[0], details[1]))
@@ -231,6 +235,7 @@ while True:
 							passw.append(line.split(":")[1].split(" ")[0])
 					current_split_method = "None"
 					print("\n\033[38;5;7mCountries in combos were deleted.\nYou can now check accounts without any specific VPN.")
+					list_without_countries = True
 				else:
 					print("\n\033[38;5;7mThere are no countries included in given combo-list")
 				input("\nPress Enter to Return.")
