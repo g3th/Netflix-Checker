@@ -81,6 +81,10 @@ for file_ in range(len(files)):
 				if current_split_method == "None":
 					user.append(line.split(":")[0])
 					passw.append(line.split(":")[1])
+				
+				if current_split_method == "https":
+					user.append(line.split(" | ")[1].split(":")[0])
+					passw.append(line.split(" | ")[1].split(":")[1])
 					
 			for line in range(len(user)):	
 				updated_list.append("{}:{}\n".format(user[line], passw[line]))
@@ -90,11 +94,11 @@ page = "https://www.netflix.com/login"
 while True:
 	counter =0
 	title()
+	print(current_split_method)
 	return_split_method = print_ip_and_country()
 	user_options()
 	options = input("Pick an option or (q)uit: ")
 	while True:
-		#print(current_split_method)
 		if options == "1":
 			#Account Checker
 			title()
@@ -175,7 +179,7 @@ while True:
 			
 		if options == "2":		
 			#Countries List in File and Stats
-			if return_split_method == True:
+			if return_split_method:
 				title()
 				combolist_countries = {}
 				key_words = ["Country: ", "Country = "]
@@ -210,20 +214,27 @@ while True:
 				print("\033[38;5;7m\nMore Stats:")
 				print("--------------------------------------------\n")
 				print("\033[38;5;220mTotal Combos: \033[38;5;190m{}".format(len(combo_lines)))
-				print("\033[38;5;220mMost Represented Country in List: \033[38;5;190m{}".format(list(combolist_countries.keys())
-      [list(combolist_countries.values()).index(max(combolist_countries.values()))]))
-				print("\033[38;5;220mCountries Percentages: ",end='')
-				for value in percentages:
-					print("\n\033[38;5;190m{}: {}%".format(value, percentages[value]), end='')
-				input("\n\n\033[38;5;7mPress Enter to return")
-				break
+				if len(combolist_countries.values()) == 0 :
+					print("\033[38;5;220mNo Countries in list.")
+					print("\nPress enter.")
+					input()
+					break
+				else:
+					print("\033[38;5;220mMost Represented Country in List: \033[38;5;190m{}".format(list(combolist_countries.keys())
+		  [list(combolist_countries.values()).index(max(combolist_countries.values()))]))
+					print("\033[38;5;220mCountries Percentages: ",end='')
+					for value in percentages:
+						print("\n\033[38;5;190m{}: {}%".format(value, percentages[value]), end='')
+					input("\n\n\033[38;5;7mPress Enter to return")
+					break
 			else:
 				title()
 				input("\033[38;5;7m\n\nNo countries to sort. \nPress Enter to return")
 				break
 				
 		if options == "3":
-			whitelist = ['None','[NETFLIX]', 'Short_line', ]
+			
+			whitelist = ['None','[NETFLIX]', 'Short_line', ' |']
 			title()
 			try:
 				if [item for item in whitelist if (current_split_method == item)]:
@@ -233,11 +244,12 @@ while True:
 						for line in net.readlines():
 							user.append(line.split(":")[0])
 							passw.append(line.split(":")[1].split(" ")[0])
+					print(current_split_method)
 					current_split_method = "None"
 					print("\n\033[38;5;7mCountries in combos were deleted.\nYou can now check accounts without any specific VPN.")
-					list_without_countries = True
 				else:
 					print("\n\033[38;5;7mThere are no countries included in given combo-list")
+				list_without_countries = True
 				input("\nPress Enter to Return.")
 			except IndexError:
 				return_error()

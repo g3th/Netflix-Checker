@@ -21,7 +21,9 @@ def determine_split_method():
 				if "https://www.netflix.com" in line:
 					split_method_type = ";"
 				if "[NETFLIX]" in line:
-						split_method_type = "[NETFLIX]"
+					split_method_type = "[NETFLIX]"
+				if "https://" in line:
+					split_method_type = "https"
 				elif len(spaces) < 1:
 					split_method_type = "None"
 				else:
