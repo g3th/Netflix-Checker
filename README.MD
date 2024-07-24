@@ -12,7 +12,7 @@ Due to its slow speed, the checker has the ability to resume in case of a 403 er
 
 The script was greatly simplified, as the previous options (such as the ability to choose how to split your combo-list) were not considered very useful.
 
-Built for Debian/Kali linux terminal (gnome). Enjoy.
+Built for Debian/Kali linux or other Linux distributions. Usable in Windows, but without the same Linux terminal capabilities. Enjoy.
 
 Ingredients:
 
