@@ -128,7 +128,10 @@ while True:
                     print("\n\033[38;5;7mUser : password combinations sorted.\n\nYou can now run the checker.")
                     input("\n\nPress Enter...")
             except IndexError:
-                print("\n\n\033[38;5;255mThere is something wrong with the combolist.\nCheck for extra spaces\nExtra characters\nOr anything else that shouldn't be there.\nEnding.")
+                print("\n\n\033[38;5;255mThere is something wrong with the combolist.\nCheck for extra spaces, extra characters\nOr anything else that shouldn't be there.\nEnding.")
+                exit()
+            except FileNotFoundError:
+                print("\n\n\033[38;5;255mCombo-list not found. Place it in the main directory,\nand make sure it's named 'netflix' (no file extension, or capitalization).\nEnding.")
                 exit()
         if options == "q":
             #Exit
