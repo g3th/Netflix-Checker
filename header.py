@@ -10,7 +10,6 @@ def title():
 
 def user_options():
 	print("\n\033[38;5;7m--------- Options: ---------\n")
-	print("Recommended: Press 2, wait for completion, then Enter, then 1.")
 	print("--------------------------------------------------------------")
 	print("1) Check Accounts")
 	print("2) Split Accounts\n")
