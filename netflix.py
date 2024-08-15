@@ -32,7 +32,7 @@ while True:
     logging.getLogger().setLevel(logging.CRITICAL)
     counter = 0
     title()
-    print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching Accounts\n".format(details[0], details[1]))
+    print("\n\033[38;5;7mCurrent IP: {} - Netflix's location: {}\n".format(details[0], details[1]))
     user_options()
     options = input("Pick an option or (q)uit: ")
     while True:
@@ -41,7 +41,7 @@ while True:
             title()
             if resume_flag:
                 print("\033[38;5;7m\nResume file found. Resuming from given combo.")
-            print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching Accounts\n".format(details[0], details[1]))
+            print("\n\033[38;5;7mCurrent IP: {} - Netflix's location: {}\n".format(details[0], details[1]))
             while counter < len(user):
                 if len(user) == 0:
                     print("\n\033[38;5;226mNo Accounts for current country.\n")
@@ -101,7 +101,7 @@ while True:
                     del updated_list[0]
                 if clear_page > 10:
                     title()
-                    print("\n\033[38;5;7mCurrent IP: {} : {} | Fetching Accounts\n".format(details[0], details[1]))
+                    print("\n\033[38;5;7mCurrent IP: {} - Netflix's location: {}\n".format(details[0], details[1]))
                     clear_page = 0
                 time.sleep(1)
                 counter += 1
@@ -120,13 +120,16 @@ while True:
             title()
             user = []
             passw = []
-            with open('netflix', 'r') as net:
-                for line in net.readlines():
-                    user.append(line.split(":")[0])
-                    passw.append(line.split(":")[1].split(" ")[0])
-            current_split_method = "None"
-            print("\n\033[38;5;7mUser : password combinations sorted.\n\nYou can now run the checker.")
-            input("\n\nPress Enter...")
+            try:
+                with open('netflix', 'r') as net:
+                    for line in net.readlines():
+                        user.append(line.split(":")[0])
+                        passw.append(line.split(":")[1].split(" ")[0])
+                    print("\n\033[38;5;7mUser : password combinations sorted.\n\nYou can now run the checker.")
+                    input("\n\nPress Enter...")
+            except IndexError:
+                print("\n\n\033[38;5;255mThere is something wrong with the combolist.\nCheck for extra spaces\nExtra characters\nOr anything else that shouldn't be there.\nEnding.")
+                exit()
         if options == "q":
             #Exit
             exit()
