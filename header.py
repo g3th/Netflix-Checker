@@ -11,8 +11,8 @@ def title():
 def user_options():
 	print("\n\033[38;5;7m--------- Options: ---------\n")
 	print("--------------------------------------------------------------")
-	print("1) Check Accounts")
-	print("2) Split Accounts\n")
+	print("1) Start Checker")
+	print("2) Quit\n")
 
 	
 			
