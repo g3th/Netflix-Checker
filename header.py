@@ -6,8 +6,9 @@ def title():
 	print("\033[38;5;160m██║╚██╗██║██╔══╝     ██║   ██╔══╝  ██║     ██║ ██╔██╗ ")
 	print("\033[38;5;196m██║ ╚████║███████╗   ██║   ██║     ███████╗██║██╔╝ ██╗")
 	print("\033[38;5;160m╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚═╝     ╚══════╝╚═╝╚═╝  ╚═╝")
-	print("\033[38;5;124m    =========== https://github.com/g3th =========    ")
-
+	print("\033[38;5;226m=========== DOWNLOAD MY NEW MOBILE GAME ON THE PLAYSTORE! =========    ")
+	print("\033[38;5;226m	=========== Taurus =========    ")
+	print("\033[38;5;226mhttps://play.google.com/store/apps/details?id=com.taurusthebrickbreakingsaga ")
 def user_options():
 	print("\n\033[38;5;7m--------- Options: ---------\n")
 	print("--------------------------------------------------------------")
